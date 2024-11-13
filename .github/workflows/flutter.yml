@@ -3,14 +3,19 @@ on: [push, pull_request]
 
 jobs:
 
-  package-analysis:
-
+  analyze:
+    name: "Analyze flutter package"
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4.2.2
 
-      - uses: axel-op/dart-package-analyzer@v3
-        with:
-          # Required:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.14.0
+        with: 
+          channel: "stable"
+          cache: true
+
+      - uses: bluefireteam/melos-action@v3
+
+      - run: flutter pub get
+      - run: melos --analyze

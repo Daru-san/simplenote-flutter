@@ -33,4 +33,4 @@ doc/api/
 .idea/
 
 # Nix build directory
-*result/
+result

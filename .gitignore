@@ -28,3 +28,11 @@ doc/api/
 
 # Allow direnv envrc
 !.envrc
+
+.direnv/
+
+# Intellij stuff
+.idea/
+
+# Nix build directory
+*result/

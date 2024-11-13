@@ -15,7 +15,5 @@ jobs:
           channel: "stable"
           cache: true
 
-      - uses: bluefireteam/melos-action@v3
-
       - run: flutter pub get
-      - run: melos --analyze
+      - run: flutter analyze

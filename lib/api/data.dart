@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 final storage = const FlutterSecureStorage();
 
@@ -11,15 +14,29 @@ class Data {
     required this.authtoken,
   });
 
-  void setAuthInfo(String authtoken, String email) async {
-    await storage.write(key: 'authtoken', value: authtoken);
+  void setAuthInfo(String authtoken, String email, String password) async {
     await storage.write(key: 'email', value: email);
+    await storage.write(key: 'password', value: password);
   }
 
-  static Future<Data> fetch() async {
-    var authtoken = await storage.read(key: 'authtoken');
-    var email = await storage.read(key: 'email');
+  Future<http.Response> sendData(String email, String password) async {
+    final body =
+        utf8.encode("email=${email.trim()}&password=${password.trim()}");
+    return http.post(
+      Uri.parse("https://simple+note.appspot.com/api/login"),
+      headers: <String, String>{
+        "Content-Type": "text/plain",
+      },
+      body: base64Encode(body),
+    );
+  }
 
-    return Data(email: email.toString(), authtoken: authtoken.toString());
+  Future<Data> getData() async {
+    var email = await storage.read(key: 'email');
+    var password = await storage.read(key: 'password');
+
+    var response = sendData(email.toString(), password.toString());
+
+    return Data(email: email.toString(), authtoken: response.toString());
   }
 }

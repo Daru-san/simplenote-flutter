@@ -24,7 +24,12 @@
         };
       in
       {
-        packages.default = pkgs.callPackage ./nix/package.nix { };
+        packages = rec {
+          default = simplenote-flutter;
+          simplenote-flutter = pkgs.callPackage ./nix/package.nix { enableDebug = false; };
+          debug = pkgs.callPackage ./nix/package.nix { enableDebug = true; };
+        };
+
         devShells.default = pkgs.mkShell {
           FLUTTER_SDK = "${pkgs.flutter.unwrapped}";
           buildInputs = with pkgs; [

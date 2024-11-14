@@ -3,6 +3,7 @@
   lib,
   pkg-config,
   gtk3,
+  enableDebug ? true,
 }:
 flutter.buildFlutterApplication {
   pname = "simplenote-flutter";
@@ -14,6 +15,8 @@ flutter.buildFlutterApplication {
   nativeBuildInputs = [
     pkg-config
   ];
+
+  flutterMode = lib.optionalString enableDebug "debug";
 
   buildInputs = [ gtk3 ];
 

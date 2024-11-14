@@ -32,8 +32,32 @@
 
         devShells.default = pkgs.mkShell {
           FLUTTER_SDK = "${pkgs.flutter.unwrapped}";
+          shellHook = ''
+            export LD_LIBRARY_PATH=${pkgs.libepoxy}/lib
+          '';
           buildInputs = with pkgs; [
             flutter
+            at-spi2-core.dev
+            clang
+            cmake
+            dart
+            dbus.dev
+            flutter
+            gtk3
+            libdatrie
+            libepoxy.dev
+            libselinux
+            libsepol
+            libthai
+            libsecret
+            libxkbcommon
+            ninja
+            pcre
+            sysprof
+            pkg-config
+            util-linux.dev
+            xorg.libXdmcp
+            xorg.libXtst
           ];
         };
       }

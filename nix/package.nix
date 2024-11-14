@@ -16,7 +16,7 @@ flutter.buildFlutterApplication {
     pkg-config
   ];
 
-  flutterMode = lib.optionalString enableDebug "debug";
+  flutterMode = if enableDebug then "debug" else "release";
 
   buildInputs = [ gtk3 ];
 

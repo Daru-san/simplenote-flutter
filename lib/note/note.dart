@@ -77,6 +77,32 @@ Future<http.Response> modifyNote(Note note, Data userData) {
   );
 }
 
+// Should be used to get and set a note when saving for the first time to obtain all data
+// Notes would be saved and updated by this mechanism
+Future<Note> newNote(Data userData) {
+  var newNote = Note(
+    key: "",
+    content: "New note",
+    title: "New note",
+    modifydate: DateTime.now(),
+    createdate: DateTime.now(),
+    systemtags: [],
+    tags: [],
+    syncnum: 0,
+    version: 0,
+    isDeleted: false,
+  );
+
+  var response = createNote(newNote, userData);
+
+  var fetchedNote =
+      Note.fromJson(jsonDecode(response.toString()) as Map<String, dynamic>);
+
+  var finalNote = fetchNote(fetchedNote.key, userData);
+
+  return finalNote;
+}
+
 class Note {
   final String key;
   final String content;
@@ -101,6 +127,21 @@ class Note {
     required this.version,
     required this.isDeleted,
   });
+
+  factory Note.newNote() {
+    return Note(
+      key: "",
+      content: "",
+      title: "",
+      modifydate: DateTime.now(),
+      createdate: DateTime.now(),
+      systemtags: [],
+      tags: [],
+      syncnum: 0,
+      version: 0,
+      isDeleted: false,
+    );
+  }
 
   factory Note.fromJson(Map<String, dynamic> json) {
     return switch (json) {

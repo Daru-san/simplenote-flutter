@@ -92,8 +92,13 @@ class _NotePageState extends State<NotePage> {
     return Scaffold(
       appBar: AppBar(
         title: NoteTitleEntry(_titleTextController),
+        title: NoteTitleEntry(
+          textFieldController: _titleTextController,
+        ),
       ),
-      body: NoteEntry(_contentTextController),
+      body: NoteEntry(
+        textFieldController: _contentTextController,
+      ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Save note",
         onPressed: () {},

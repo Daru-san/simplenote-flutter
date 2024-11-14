@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class NoteTitleEntry extends StatelessWidget {
-  final _textFieldController;
+  final TextEditingController textFieldController;
 
-  const NoteTitleEntry(this._textFieldController);
+  const NoteTitleEntry({super.key, required this.textFieldController});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _textFieldController,
+      controller: textFieldController,
       decoration: InputDecoration(
         border: InputBorder.none,
         focusedBorder: InputBorder.none,
@@ -38,9 +38,9 @@ class NoteTitleEntry extends StatelessWidget {
 }
 
 class NoteEntry extends StatelessWidget {
-  final _textFieldController;
+  final TextEditingController textFieldController;
 
-  const NoteEntry(this._textFieldController);
+  const NoteEntry({super.key, required this.textFieldController});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class NoteEntry extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: TextField(
-        controller: _textFieldController,
+        controller: textFieldController,
         maxLines: null,
         textCapitalization: TextCapitalization.sentences,
         decoration: null,

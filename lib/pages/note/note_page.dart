@@ -28,9 +28,7 @@ class _NotePageState extends State<NotePage> {
   String noteTitle = "";
   String noteContent = "";
   List<String> noteTags = [];
-
-  final Note currentNote;
-  const _NotePageState({required this.currentNote});
+  Note currentNote = Note.newNote();
 
   final TextEditingController _titleTextController = TextEditingController();
   final TextEditingController _contentTextController = TextEditingController();
@@ -62,36 +60,50 @@ class _NotePageState extends State<NotePage> {
   }
 
   void getNote() async {
-    noteContent = this.currentNote.content.toString();
-    noteTags = this.currentNote.tags;
+    noteContent = currentNote.content.toString();
+    noteTags = currentNote.tags;
   }
 
-  void createNote() {
-    final Data userData = Data(email: "", authtoken: "");
-    Note note = Note(
-      key: "",
-      content: noteContent,
-      modifydate: DateTime.now(),
-      createdate: DateTime.now(),
-      systemtags: noteTags,
-      tags: noteTags,
-      syncnum: 1,
-      version: 1,
-      isDeleted: false,
-    );
+  void setNote(Note note) {
+    currentNote = note;
+    getNote();
+  }
 
-    try {
-      notes.createNote(note, userData);
-    } catch (e) {
-      printToConsole("Error saving note");
+  void fetchNote() async {
+    Data userData = Data(email: "", authtoken: "");
+
+    if (currentNote.key != "") {
+      var note = notes.fetchNote(currentNote.key, userData);
+      currentNote = await note;
+    } else {
+      printToConsole("Error fetching note, please check if it exists");
     }
+  }
+
+  void saveNote() {
+    if (currentNote.key != "") {
+      updateNote();
+    } else {
+      saveNewNote();
+    }
+  }
+
+  void saveNewNote() {
+    Data userData = Data(email: "", authtoken: "");
+    notes.createNote(currentNote, userData);
+  }
+
+  void updateNote() {
+    Data userData = Data(email: "", authtoken: "");
+    notes.updateNote(currentNote, userData);
   }
 
   @override
   Widget build(BuildContext context) {
+    final note = ModalRoute.of(context)!.settings.arguments as Note;
+    setNote(note);
     return Scaffold(
       appBar: AppBar(
-        title: NoteTitleEntry(_titleTextController),
         title: NoteTitleEntry(
           textFieldController: _titleTextController,
         ),

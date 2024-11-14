@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:rhttp/rhttp.dart';
 import 'package:simplenote_flutter/pages/main/main_page.dart';
 import 'package:yaru/yaru.dart';
 
 Future<void> main() async {
   await YaruWindowTitleBar.ensureInitialized();
 
+  Rhttp.init();
   runApp(const MyApp());
 }
 

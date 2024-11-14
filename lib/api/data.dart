@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
+import 'package:rhttp/rhttp.dart';
 
 final storage = const FlutterSecureStorage();
 
@@ -37,15 +37,14 @@ class Data {
     return Data(email: "", authtoken: "");
   }
 
-  Future<http.Response> sendAuthRequest(String email, String password) async {
+  Future<HttpTextResponse> sendAuthRequest(
+      String email, String password) async {
     final body =
         utf8.encode("email=${email.trim()}&password=${password.trim()}");
-    return http.post(
-      Uri.parse("https://simple+note.appspot.com/api/login"),
-      headers: <String, String>{
-        "Content-Type": "text/plain",
-      },
-      body: base64Encode(body),
+    return Rhttp.post(
+      "https://simple+note.appspot.com/api/login",
+      headers: const HttpHeaders.map({HttpHeaderName.contentType: 'text/pain'}),
+      body: HttpBody.bytes(body),
     );
   }
 

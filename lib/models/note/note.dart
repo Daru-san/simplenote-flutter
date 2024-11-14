@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:rhttp/rhttp.dart';
 import 'package:simplenote_flutter/api/data.dart';
 
 // The idea here is to get the list of notes from the API along with the note index
@@ -21,8 +20,9 @@ import 'package:simplenote_flutter/api/data.dart';
 // Would contain an array of keys and the number of notes for a user
 
 Future<Note> fetchNote(String notekey, Data userData) async {
-  final response = await http.get(Uri.parse(
-      "https://simple+note.appspot.com/api2/data/$notekey?auth=${userData.authtoken}&email=${userData.email}"));
+  final response = await Rhttp.get(
+    "https://simple+note.appspot.com/api2/data/$notekey?auth=${userData.authtoken}&email=${userData.email}",
+  );
 
   if (response.statusCode == 200) {
     return Note.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -31,14 +31,14 @@ Future<Note> fetchNote(String notekey, Data userData) async {
   }
 }
 
-Future<http.Response> createNote(Note note, Data userData) {
-  return http.post(
-    Uri.parse(
-        "https://simple+note.appspot.com/api2/data?auth=${userData.authtoken}&email=${userData.email}"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode({
+Future<HttpResponse> createNote(Note note, Data userData) {
+  return Rhttp.post(
+    "https://simple+note.appspot.com/api2/data?auth=${userData.authtoken}&email=${userData.email}",
+    headers: HttpHeaders.map({
+      HttpHeaderName.contentType: 'application/json',
+      HttpHeaderName.acceptCharset: 'UTF-8'
+    }),
+    body: HttpBody.json({
       'content': note.content,
       'tags': note.tags,
       'modifydate': note.modifydate,
@@ -48,14 +48,14 @@ Future<http.Response> createNote(Note note, Data userData) {
   );
 }
 
-Future<http.Response> updateNote(Note note, Data userData) {
-  return http.post(
-    Uri.parse(
-        "https://simple+note.appspot.com/api2/data/${note.key}?auth=${userData.authtoken}&email=${userData.email}"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode({
+Future<HttpResponse> updateNote(Note note, Data userData) {
+  return Rhttp.post(
+    "https://simple+note.appspot.com/api2/data/${note.key}?auth=${userData.authtoken}&email=${userData.email}",
+    headers: HttpHeaders.map({
+      HttpHeaderName.contentType: 'application/json',
+      HttpHeaderName.acceptCharset: 'UTF-8'
+    }),
+    body: HttpBody.json({
       'content': note.content,
       'tags': note.tags,
       'systemtags': note.systemtags,
@@ -64,14 +64,14 @@ Future<http.Response> updateNote(Note note, Data userData) {
   );
 }
 
-Future<http.Response> modifyNote(Note note, Data userData) {
-  return http.post(
-    Uri.parse(
-        "https://simple+note.appspot.com/api2/data/${note.key}?auth=${userData.authtoken}&email=${userData.email}"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode({
+Future<HttpResponse> setDeleted(Note note, Data userData) {
+  return Rhttp.post(
+    "https://simple+note.appspot.com/api2/data/${note.key}?auth=${userData.authtoken}&email=${userData.email}",
+    headers: HttpHeaders.map({
+      HttpHeaderName.contentType: 'application/json',
+      HttpHeaderName.acceptCharset: 'UTF-8'
+    }),
+    body: HttpBody.json({
       'deleted': note.isDeleted,
     }),
   );

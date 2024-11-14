@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simplenote_flutter/pages/home/home_page.dart';
+import 'package:simplenote_flutter/pages/main/main_page.dart';
 import 'dart:io' show Platform;
 import 'package:window_manager/window_manager.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const MainPage(),
     );
   }
 }

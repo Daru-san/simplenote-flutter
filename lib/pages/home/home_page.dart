@@ -8,6 +8,13 @@ import 'package:simplenote_flutter/pages/note/note_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  final title = "Home";
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return title;
+  }
+
   @override
   State<HomePage> createState() {
     return _HomePageState();
@@ -20,9 +27,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Simplenote"),
-      ),
       body: Center(
         child: ListView.builder(
           itemCount: noteList.length,

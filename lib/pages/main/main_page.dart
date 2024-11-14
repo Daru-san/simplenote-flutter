@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> {
             onDestinationSelected: (int index) {
               setState(() {
                 _activePage = index;
+                _appTile = _pages[index].toString();
               });
             },
             labelType: NavigationRailLabelType.selected,

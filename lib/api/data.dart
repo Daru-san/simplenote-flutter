@@ -14,7 +14,7 @@ class Data {
     required this.authtoken,
   });
 
-  void setAuthInfo(String authtoken, String email, String password) async {
+  void setAuthInfo(String email, String password) async {
     await storage.write(key: 'email', value: email);
     await storage.write(key: 'password', value: password);
   }

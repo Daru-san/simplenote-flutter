@@ -4,7 +4,6 @@ import 'package:simplenote_flutter/pages/home/home_page.dart';
 import 'package:simplenote_flutter/pages/settings/settings_page.dart';
 import 'package:simplenote_flutter/pages/tags/tag_page.dart';
 import 'package:yaru/yaru.dart';
-import 'package:async/async.dart';
 
 var userData = Data.newData();
 
@@ -18,8 +17,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final AsyncMemoizer _memoizer = AsyncMemoizer();
-
   int _activePage = 0;
   static const List<Widget> _pages = <Widget>[
     HomePage(),
@@ -39,12 +36,6 @@ class _MainPageState extends State<MainPage> {
     YaruIcons.settings,
   ];
 
-  _loadData() async {
-    return _memoizer.runOnce(() async {
-      userData = await (await userData.getLocalData()).syncSimplenote();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +47,7 @@ class _MainPageState extends State<MainPage> {
         isMaximizable: false,
       ),
       body: FutureBuilder(
-        future: _loadData(),
+        future: userData.getUserAuthData(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:simplenote_flutter/api/data.dart';
-import 'package:simplenote_flutter/pages/main/main_page.dart';
+import 'package:simplenote_flutter/main.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -33,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   );
                 },
               ),
-              SettingsTile(title: Text("Email: ${userData.email}")),
+              SettingsTile(title: Text("Email: ${currentSession.email}")),
             ],
           ),
         ],
@@ -85,12 +84,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                Data data = Data.newData();
-                data.setAuthInfo(
+                currentSession.setAuthInfo(
                   _emailTextController.text,
                   _passswordTextController.text,
                 );
-                userData = await data.syncSimplenote();
+                currentSession.syncSimplenote();
               },
               child: const Text('Login'),
             ),

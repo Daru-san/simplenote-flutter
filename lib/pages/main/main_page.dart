@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:simplenote_flutter/api/data.dart';
 import 'package:simplenote_flutter/pages/home/home_page.dart';
 import 'package:simplenote_flutter/pages/settings/settings_page.dart';
 import 'package:simplenote_flutter/pages/tags/tag_page.dart';
 import 'package:yaru/yaru.dart';
-
-var userData = Data.newData();
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -46,32 +43,19 @@ class _MainPageState extends State<MainPage> {
         isClosable: false,
         isMaximizable: false,
       ),
-      body: FutureBuilder(
-        future: userData.getUserAuthData(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            default:
-              return YaruMasterDetailPage(
-                length: _pages.length,
-                tileBuilder: (context, index, selected, avaiableWidth) {
-                  return YaruMasterTile(
-                    leading: Icon(_pageIcons[index]),
-                    title: Text(_pageTitles[index]),
-                  );
-                },
-                pageBuilder: (context, index) {
-                  setState(() {
-                    _activePage = index;
-                  });
-                  return Center(child: _pages[index]);
-                },
-              );
-          }
+      body: YaruMasterDetailPage(
+        length: _pages.length,
+        tileBuilder: (context, index, selected, avaiableWidth) {
+          return YaruMasterTile(
+            leading: Icon(_pageIcons[index]),
+            title: Text(_pageTitles[index]),
+          );
+        },
+        pageBuilder: (context, index) {
+          setState(() {
+            _activePage = index;
+          });
+          return Center(child: _pages[index]);
         },
       ),
     );

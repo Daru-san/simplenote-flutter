@@ -17,12 +17,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  @override
-  void initState() {
-    super.initState();
-    syncData();
-  }
-
   int _activePage = 0;
   static const List<Widget> _pages = <Widget>[
     HomePage(),
@@ -42,36 +36,53 @@ class _MainPageState extends State<MainPage> {
     YaruIcons.settings,
   ];
 
-  void syncData() async {
+  Future<void> syncData() async {
     var localData = userData.getLocalData();
     userData = await (await localData).syncSimplenote();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: YaruWindowTitleBar(
-        title: Text(_pageTitles[_activePage]),
-        isMinimizable: false,
-        isRestorable: false,
-        isClosable: false,
-        isMaximizable: false,
-      ),
-      body: YaruMasterDetailPage(
-        length: _pages.length,
-        tileBuilder: (context, index, selected, avaiableWidth) {
-          return YaruMasterTile(
-            leading: Icon(_pageIcons[index]),
-            title: Text(_pageTitles[index]),
+    return FutureBuilder(
+      future: syncData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: Text('Getting user data...'),
           );
-        },
-        pageBuilder: (context, index) {
-          setState(() {
-            _activePage = index;
-          });
-          return Center(child: _pages[index]);
-        },
-      ),
+        } else {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('An error occurred'),
+            );
+          } else {
+            return Scaffold(
+              appBar: YaruWindowTitleBar(
+                title: Text(_pageTitles[_activePage]),
+                isMinimizable: false,
+                isRestorable: false,
+                isClosable: false,
+                isMaximizable: false,
+              ),
+              body: YaruMasterDetailPage(
+                length: _pages.length,
+                tileBuilder: (context, index, selected, avaiableWidth) {
+                  return YaruMasterTile(
+                    leading: Icon(_pageIcons[index]),
+                    title: Text(_pageTitles[index]),
+                  );
+                },
+                pageBuilder: (context, index) {
+                  setState(() {
+                    _activePage = index;
+                  });
+                  return Center(child: _pages[index]);
+                },
+              ),
+            );
+          }
+        }
+      },
     );
   }
 }

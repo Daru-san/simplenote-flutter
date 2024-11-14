@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:simplenote_flutter/api/data.dart';
 
 // The idea here is to get the list of notes from the API along with the note index
 // From there we either get each note from the array of notes or we only get the keys
@@ -19,10 +20,9 @@ import 'package:http/http.dart' as http;
 // class UserNotes maybe?
 // Would contain an array of keys and the number of notes for a user
 
-Future<Note> fetchNote(String notekey) async {
-  //TODO: GET AUTHTOKEN
+Future<Note> fetchNote(String notekey, Data userData) async {
   final response = await http.get(Uri.parse(
-      "https://simple+note.appspot.com/api2/data/$notekey?auth=[auth6token]&email=[email]"));
+      "https://simple+note.appspot.com/api2/data/$notekey?auth=${userData.authtoken}&email=${userData.email}"));
 
   if (response.statusCode == 200) {
     return Note.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -31,10 +31,10 @@ Future<Note> fetchNote(String notekey) async {
   }
 }
 
-Future<http.Response> createNote(Note note) {
+Future<http.Response> createNote(Note note, Data userData) {
   return http.post(
     Uri.parse(
-        "https://simple+note.appspot.com/api2/data?auth=[auth6token]&email=[email]"),
+        "https://simple+note.appspot.com/api2/data?auth=${userData.authtoken}&email=${userData.email}"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -48,10 +48,10 @@ Future<http.Response> createNote(Note note) {
   );
 }
 
-Future<http.Response> updateNote(Note note) {
+Future<http.Response> updateNote(Note note, Data userData) {
   return http.post(
     Uri.parse(
-        "https://simple+note.appspot.com/api2/data/${note.key}?auth=[auth6token]&email=[email]"),
+        "https://simple+note.appspot.com/api2/data/${note.key}?auth=${userData.authtoken}&email=${userData.email}"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -64,10 +64,10 @@ Future<http.Response> updateNote(Note note) {
   );
 }
 
-Future<http.Response> modifyNote(Note note) {
+Future<http.Response> modifyNote(Note note, Data userData) {
   return http.post(
     Uri.parse(
-        "https://simple+note.appspot.com/api2/data/${note.key}?auth=[auth6token]&email=[email]"),
+        "https://simple+note.appspot.com/api2/data/${note.key}?auth=${userData.authtoken}&email=${userData.email}"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

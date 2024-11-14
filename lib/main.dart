@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simplenote_flutter/pages/main/main_page.dart';
-import 'dart:io' show Platform;
-import 'package:window_manager/window_manager.dart';
+import 'package:yaru/yaru.dart';
 
-void main() {
+Future<void> main() async {
+  await YaruWindowTitleBar.ensureInitialized();
+
   runApp(const MyApp());
-
-  // Hide the title bar on linux platforms
-  if (Platform.isLinux) {
-    windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
-    });
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -19,13 +13,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Simplenote',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MainPage(),
+    return YaruTheme(
+      builder: (context, yaru, child) {
+        return MaterialApp(
+          title: 'Simplenote',
+          debugShowCheckedModeBanner: false,
+          theme: yaru.theme,
+          darkTheme: yaru.darkTheme,
+          home: const MainPage(),
+        );
+      },
     );
   }
 }

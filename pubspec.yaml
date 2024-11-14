@@ -40,6 +40,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   yaru: ^5.3.2
   flutter_settings_ui: ^3.0.1
+  async: ^2.11.0
 
 dev_dependencies:
   flutter_test:

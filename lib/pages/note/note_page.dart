@@ -2,8 +2,8 @@ import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
 import 'package:flutter/material.dart';
 import 'package:simplenote_flutter/api/data.dart';
-import 'package:simplenote_flutter/note/note.dart' as notes;
-import 'package:simplenote_flutter/note/note.dart';
+import 'package:simplenote_flutter/models/note/note.dart' as notes;
+import 'package:simplenote_flutter/models/note/note.dart';
 import './note_entries.dart';
 
 class NotePage extends StatefulWidget {

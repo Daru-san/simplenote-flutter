@@ -19,6 +19,12 @@ class Data {
     await storage.write(key: 'password', value: password);
   }
 
+  Future<Data> getLocalData() async {
+    var email = await storage.read(key: 'email');
+
+    return Data(email: email.toString(), authtoken: "");
+  }
+
   factory Data.newData() {
     return Data(email: "", authtoken: "");
   }
@@ -35,7 +41,6 @@ class Data {
     );
   }
 
-  Future<Data> getData() async {
     var email = await storage.read(key: 'email');
     var password = await storage.read(key: 'password');
 

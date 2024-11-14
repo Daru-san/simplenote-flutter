@@ -19,6 +19,10 @@ class Data {
     await storage.write(key: 'password', value: password);
   }
 
+  factory Data.newData() {
+    return Data(email: "", authtoken: "");
+  }
+
   Future<http.Response> sendData(String email, String password) async {
     final body =
         utf8.encode("email=${email.trim()}&password=${password.trim()}");

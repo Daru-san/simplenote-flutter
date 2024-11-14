@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:simplenote_flutter/api/data.dart';
 import 'package:simplenote_flutter/models/note/note.dart' as notes;
 import 'package:simplenote_flutter/models/note/note.dart';
+import 'package:simplenote_flutter/pages/main/main_page.dart';
 import './note_entries.dart';
 
 class NotePage extends StatefulWidget {
@@ -68,8 +67,6 @@ class _NotePageState extends State<NotePage> {
   }
 
   void fetchNote() async {
-    Data userData = Data(email: "", authtoken: "");
-
     if (currentNote.key != "") {
       var note = notes.fetchNote(currentNote.key, userData);
       currentNote = await note;
@@ -85,12 +82,10 @@ class _NotePageState extends State<NotePage> {
   }
 
   void saveNewNote() {
-    Data userData = Data(email: "", authtoken: "");
     notes.createNote(currentNote, userData);
   }
 
   void updateNote() {
-    Data userData = Data(email: "", authtoken: "");
     notes.updateNote(currentNote, userData);
   }
 

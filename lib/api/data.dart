@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,17 +18,26 @@ class Data {
     await storage.write(key: 'password', value: password);
   }
 
-  Future<Data> getLocalData() async {
-    var email = await storage.read(key: 'email');
+  Future<Data> getUserAuthData() async {
+    String lastCheckDateStr =
+        (await storage.read(key: 'lastChecked')).toString();
 
-    return Data(email: email.toString(), authtoken: "");
+    DateTime lastChecked = DateTime.tryParse(lastCheckDateStr) ?? DateTime(0);
+
+    if (DateTime.now().difference(lastChecked) > Duration(days: 1)) {
+      return syncSimplenote();
+    } else {
+      var email = await storage.read(key: 'email');
+      var authtoken = await storage.read(key: 'authtoken');
+      return Data(email: email.toString(), authtoken: authtoken.toString());
+    }
   }
 
   factory Data.newData() {
     return Data(email: "", authtoken: "");
   }
 
-  Future<http.Response> sendData(String email, String password) async {
+  Future<http.Response> sendAuthRequest(String email, String password) async {
     final body =
         utf8.encode("email=${email.trim()}&password=${password.trim()}");
     return http.post(
@@ -44,9 +52,22 @@ class Data {
   Future<Data> syncSimplenote() async {
     var email = await storage.read(key: 'email');
     var password = await storage.read(key: 'password');
+    var authtoken = "none";
+    var response = await sendAuthRequest(email.toString(), password.toString());
 
-    var response = sendData(email.toString(), password.toString());
-
-    return Data(email: email.toString(), authtoken: response.toString());
+    switch (response.statusCode) {
+      case 200:
+        () async {
+          await storage.write(
+            key: 'lastChecked',
+            value: DateTime.now().toString(),
+          );
+          await storage.write(key: 'authkey', value: response.toString());
+          authtoken = response.body;
+        };
+      default:
+      //TODO: Show message on failure
+    }
+    return Data(email: email.toString(), authtoken: authtoken);
   }
 }

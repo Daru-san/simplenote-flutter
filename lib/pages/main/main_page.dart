@@ -4,6 +4,7 @@ import 'package:simplenote_flutter/pages/home/home_page.dart';
 import 'package:simplenote_flutter/pages/settings/settings_page.dart';
 import 'package:simplenote_flutter/pages/tags/tag_page.dart';
 import 'package:yaru/yaru.dart';
+import 'package:async/async.dart';
 
 var userData = Data.newData();
 
@@ -17,6 +18,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
+
   int _activePage = 0;
   static const List<Widget> _pages = <Widget>[
     HomePage(),
@@ -36,35 +39,33 @@ class _MainPageState extends State<MainPage> {
     YaruIcons.settings,
   ];
 
-  Future<void> syncData() async {
-    var localData = userData.getLocalData();
-    userData = await (await localData).syncSimplenote();
+  Future<void> loadData() async {
+    return _memoizer.runOnce(() async {
+      userData = await (await userData.getLocalData()).syncSimplenote();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: syncData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: Text('Getting user data...'),
-          );
-        } else {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('An error occurred'),
-            );
-          } else {
-            return Scaffold(
-              appBar: YaruWindowTitleBar(
-                title: Text(_pageTitles[_activePage]),
-                isMinimizable: false,
-                isRestorable: false,
-                isClosable: false,
-                isMaximizable: false,
-              ),
-              body: YaruMasterDetailPage(
+    return Scaffold(
+      appBar: YaruWindowTitleBar(
+        title: Text(_pageTitles[_activePage]),
+        isMinimizable: false,
+        isRestorable: false,
+        isClosable: false,
+        isMaximizable: false,
+      ),
+      body: FutureBuilder(
+        future: loadData(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              return YaruMasterDetailPage(
                 length: _pages.length,
                 tileBuilder: (context, index, selected, avaiableWidth) {
                   return YaruMasterTile(
@@ -78,11 +79,10 @@ class _MainPageState extends State<MainPage> {
                   });
                   return Center(child: _pages[index]);
                 },
-              ),
-            );
+              );
           }
-        }
-      },
+        },
+      ),
     );
   }
 }

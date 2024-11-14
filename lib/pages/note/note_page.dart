@@ -1,4 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
 import 'package:flutter/material.dart';
 import 'package:simplenote_flutter/api/data.dart';
@@ -74,9 +73,7 @@ class _NotePageState extends State<NotePage> {
     if (currentNote.key != "") {
       var note = notes.fetchNote(currentNote.key, userData);
       currentNote = await note;
-    } else {
-      printToConsole("Error fetching note, please check if it exists");
-    }
+    } else {}
   }
 
   void saveNote() {

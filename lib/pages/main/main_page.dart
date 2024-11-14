@@ -36,9 +36,14 @@ class _MainPageState extends State<MainPage> {
     YaruIcons.settings,
   ];
 
+  void syncData() async {
+    var localData = userData.getLocalData();
+    userData = await (await localData).syncSimplenote();
+  }
 
   @override
   Widget build(BuildContext context) {
+    syncData();
 
     return Scaffold(
       appBar: YaruWindowTitleBar(

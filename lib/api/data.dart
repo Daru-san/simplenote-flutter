@@ -41,6 +41,7 @@ class Data {
     );
   }
 
+  Future<Data> syncSimplenote() async {
     var email = await storage.read(key: 'email');
     var password = await storage.read(key: 'password');
 

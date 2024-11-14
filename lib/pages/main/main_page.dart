@@ -17,6 +17,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+    syncData();
+  }
+
   int _activePage = 0;
   static const List<Widget> _pages = <Widget>[
     HomePage(),
@@ -43,8 +49,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    syncData();
-
     return Scaffold(
       appBar: YaruWindowTitleBar(
         title: Text(_pageTitles[_activePage]),

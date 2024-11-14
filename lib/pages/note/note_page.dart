@@ -7,8 +7,7 @@ import 'package:simplenote_flutter/models/note/note.dart';
 import './note_entries.dart';
 
 class NotePage extends StatefulWidget {
-  const NotePage({super.key, required this.currentNote});
-  final Note currentNote;
+  const NotePage({super.key});
 
   @override
   State<NotePage> createState() {

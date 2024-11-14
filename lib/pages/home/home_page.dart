@@ -37,8 +37,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        NotePage(currentNote: noteList[index]),
+                    builder: (context) => NotePage(),
+                    settings: RouteSettings(arguments: noteList[index]),
                   ),
                 );
               },
@@ -54,8 +54,8 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NotePage(currentNote: newNote),
-            ),
+                builder: (context) => NotePage(),
+                settings: RouteSettings(arguments: newNote)),
           );
         },
         child: const Icon(Icons.add),

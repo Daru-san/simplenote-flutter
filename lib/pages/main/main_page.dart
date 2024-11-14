@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
     YaruIcons.settings,
   ];
 
-  Future<void> loadData() async {
+  _loadData() async {
     return _memoizer.runOnce(() async {
       userData = await (await userData.getLocalData()).syncSimplenote();
     });
@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
         isMaximizable: false,
       ),
       body: FutureBuilder(
-        future: loadData(),
+        future: _loadData(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

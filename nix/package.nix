@@ -8,7 +8,7 @@
 flutter.buildFlutterApplication {
   pname = "simplenote-flutter";
 
-  version = "0.0.1-dev";
+  version = "0.0.1-dev" + lib.optionalString enableDebug "-debug";
 
   src = ../.;
 

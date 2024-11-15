@@ -1,4 +1,5 @@
 class Note {
+  final int id;
   final String key;
   final String content;
   final DateTime modifydate;
@@ -10,6 +11,7 @@ class Note {
   final bool isDeleted;
 
   const Note({
+    required this.id,
     required this.key,
     required this.content,
     required this.modifydate,
@@ -23,6 +25,7 @@ class Note {
 
   factory Note.newNote() {
     return Note(
+      id: 0,
       key: "",
       content: "",
       modifydate: DateTime.now(),
@@ -51,6 +54,7 @@ class Note {
         'isDeleted': bool isDeleted,
       } =>
         Note(
+          id: 0,
           key: key,
           content: content,
           modifydate: DateTime.fromMillisecondsSinceEpoch(

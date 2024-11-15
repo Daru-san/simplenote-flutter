@@ -96,6 +96,16 @@ class _NotePageState extends State<NotePage> {
       appBar: AppBar(
         title: NoteTitleEntry(
           textFieldController: _titleTextController,
+      bottomSheet: BottomAppBar(
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: noteTags.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(noteTags[index]),
+              tileColor: Theme.of(context).primaryColor,
+            );
+          },
         ),
       ),
       body: TextEditingView(

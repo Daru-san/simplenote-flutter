@@ -8,7 +8,7 @@ Session currentSession = Session(email: "default");
 Future<void> main() async {
   await YaruWindowTitleBar.ensureInitialized();
 
-  currentSession.syncSimplenote();
+  // currentSession.syncSimplenote();
 
   runApp(const MyApp());
 }

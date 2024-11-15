@@ -5,6 +5,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../note/note.dart';
 
 class Session {
+  final String email;
+
+  Session({required this.email});
+
   Map<String, String> headers = {
     'content-type': 'application/json',
     'charset': 'UTF-8'
@@ -12,7 +16,13 @@ class Session {
 
   final storage = FlutterSecureStorage();
 
+  static const baseUrl = "https://simple+note.appspot.com/";
+  static const loginUrl = "$baseUrl/api/login";
+  static const dataUrl = "$baseUrl/api2/data";
+
   final client = http.Client();
+
+
   void updateCookie(http.Response response) {
     String? rawCookie = response.headers['set-cookie'];
 
@@ -22,10 +32,6 @@ class Session {
           (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
-
-  final String email;
-
-  Session({required this.email});
 
   void setAuthInfo(String email, String password) async {
     await storage.write(key: 'email', value: email);
@@ -37,12 +43,19 @@ class Session {
       "email=${email.trim()}&password=${password.trim()}",
     );
     var response = await client.post(
-      Uri.parse("https://simple+note.appspot.com/api/login"),
+      Uri.parse(loginUrl),
       headers: headers,
       body: body,
     );
+
     if (response.statusCode != 200) {
       throw Exception("Error obtaining API authentication");
+    }
+
+    try {
+      jsonDecode(response.body);
+    } on FormatException catch (_) {
+      throw Exception("Error decoding response from server");
     }
     return response;
   }
@@ -58,7 +71,7 @@ class Session {
   Future<Note> fetchNote(String notekey) async {
     final response = await client.get(
       Uri.parse(
-        "https://simple+note.appspot.com/api2/data/$notekey?&email=$email",
+        "$dataUrl/$notekey?&email=$email",
       ),
     );
 
@@ -71,7 +84,7 @@ class Session {
 
   Future<http.Response> createNote(Note note) {
     return client.post(
-      Uri.parse("https://simple+note.appspot.com/api2/data?&email=$email"),
+      Uri.parse("$dataUrl?&email=$email"),
       headers: headers,
       body: json.encode({
         'content': note.content,
@@ -90,7 +103,7 @@ class Session {
   Future<http.Response> updateNote(Note note) {
     return client.post(
       Uri.parse(
-        "https://simple+note.appspot.com/api2/data/${note.key}?&email=$email",
+        "$dataUrl/${note.key}?&email=$email",
       ),
       headers: headers,
       body: json.encode({
@@ -105,7 +118,7 @@ class Session {
   Future<http.Response> setDeleted(Note note) {
     return client.post(
       Uri.parse(
-        "https://simple+note.appspot.com/api2/data/${note.key}?&email=$email",
+        "$dataUrl/${note.key}?&email=$email",
       ),
       headers: headers,
       body: json.encode({

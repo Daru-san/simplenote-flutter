@@ -1,7 +1,6 @@
 class Note {
   final String key;
   final String content;
-  final String title;
   final DateTime modifydate;
   final DateTime createdate;
   final int syncnum;
@@ -13,7 +12,6 @@ class Note {
   const Note({
     required this.key,
     required this.content,
-    required this.title,
     required this.modifydate,
     required this.createdate,
     required this.systemtags,
@@ -27,7 +25,6 @@ class Note {
     return Note(
       key: "",
       content: "",
-      title: "",
       modifydate: DateTime.now(),
       createdate: DateTime.now(),
       systemtags: [],
@@ -56,7 +53,6 @@ class Note {
         Note(
           key: key,
           content: content,
-          title: content.substring(1, 10),
           modifydate: DateTime.fromMillisecondsSinceEpoch(
             Duration(seconds: modifydate).inMilliseconds,
           ),

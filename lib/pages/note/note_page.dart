@@ -62,8 +62,20 @@ class _NotePageState extends State<NotePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: NoteTitleEntry(
-          textFieldController: _titleTextController,
+        title: Text(noteTitle),
+        actions: [
+          IconButton(
+            onPressed: () => currentSession.setDeleted(currentNote),
+            icon: const Icon(Icons.delete),
+            tooltip: 'Delete note',
+          ),
+          IconButton(
+            onPressed: () => currentSession.syncNote(currentNote),
+            icon: const Icon(Icons.sync),
+            tooltip: 'Sync note',
+          )
+        ],
+      ),
       bottomSheet: BottomAppBar(
         child: ListView.builder(
           scrollDirection: Axis.horizontal,

@@ -118,6 +118,18 @@ class Session {
     );
   }
 
+  void syncNote(Note note) {
+    //Check if note exists
+    //TODO: Check before saving
+    var noteExists = note.key.isNotEmpty;
+
+    if (noteExists) {
+      updateNote(note);
+    } else {
+      createNote(note);
+    }
+  }
+
   Future<http.Response> setDeleted(Note note) {
     return client.post(
       Uri.parse(

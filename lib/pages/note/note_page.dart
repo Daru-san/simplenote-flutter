@@ -16,7 +16,7 @@ class _NotePageState extends State<NotePage> {
   String noteTitle = "";
   String noteContent = "";
   List<String> noteTags = [];
-  Note currentNote = Note.newNote();
+  var currentNote = Note.newNote();
 
   final TextEditingController _contentTextController = TextEditingController();
 

@@ -19,6 +19,7 @@ class _NotePageState extends State<NotePage> {
   var currentNote = Note.newNote();
 
   final TextEditingController _contentTextController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   void contentTextChanged() {
     setState(() {
@@ -83,6 +84,7 @@ class _NotePageState extends State<NotePage> {
       ),
       body: TextEditingView(
         textFieldController: _contentTextController,
+        scrollController: _scrollController,
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Save note",

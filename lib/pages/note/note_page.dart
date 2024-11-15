@@ -26,14 +26,7 @@ class _NotePageState extends State<NotePage> {
   List<String> noteTags = [];
   Note currentNote = Note.newNote();
 
-  final TextEditingController _titleTextController = TextEditingController();
   final TextEditingController _contentTextController = TextEditingController();
-
-  void titleTextChanged() {
-    setState(() {
-      noteTitle = _titleTextController.text.trim();
-    });
-  }
 
   void contentTextChanged() {
     setState(() {
@@ -44,13 +37,11 @@ class _NotePageState extends State<NotePage> {
   @override
   void initState() {
     super.initState();
-    _titleTextController.addListener(titleTextChanged);
     _contentTextController.addListener(contentTextChanged);
   }
 
   @override
   void dispose() {
-    _titleTextController.dispose();
     _contentTextController.dispose();
     super.dispose();
   }

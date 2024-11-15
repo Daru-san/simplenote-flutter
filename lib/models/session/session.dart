@@ -141,31 +141,4 @@ class Session {
       }),
     );
   }
-
-// Should be used to get and set a note when saving for the first time to obtain all data
-// Notes would be saved and updated by this mechanism
-  Future<Note> newNote() {
-    var newNote = Note(
-      key: "",
-      content: "New note",
-      title: "New note",
-      modifydate: DateTime.now(),
-      createdate: DateTime.now(),
-      systemtags: [],
-      tags: [],
-      syncnum: 0,
-      version: 0,
-      isDeleted: false,
-    );
-
-    var response = createNote(newNote);
-
-    var fetchedNote = Note.fromJson(
-      jsonDecode(response.toString()) as Map<String, dynamic>,
-    );
-
-    var finalNote = fetchNote(fetchedNote.key);
-
-    return finalNote;
-  }
 }

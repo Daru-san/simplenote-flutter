@@ -12,14 +12,6 @@ class NotePage extends StatefulWidget {
   }
 }
 
-/*
-* Here I have two options:
-* Those being whether to fetch the notes as this page opens
-* or to store the notes in the database immedietly after opening the app
-* in that situation, I only have to open the notes and send them from the
-* home page using a method, and deal with updating notes in this class
-*/
-
 class _NotePageState extends State<NotePage> {
   String noteTitle = "";
   String noteContent = "";

@@ -43,8 +43,8 @@ class Note {
       {
         'key': String key,
         'content': String content,
-        'modifydate': String modifydate,
-        'createdate': String createdate,
+        'modifydate': int modifydate,
+        'createdate': int createdate,
         'syncnum': int syncnum,
         'version': int version,
         'systemtags': List<String> systemtags,
@@ -55,8 +55,12 @@ class Note {
           key: key,
           content: content,
           title: content.substring(1, 10),
-          modifydate: DateTime.parse(modifydate),
-          createdate: DateTime.parse(createdate),
+          modifydate: DateTime.fromMillisecondsSinceEpoch(
+            Duration(seconds: modifydate).inMilliseconds,
+          ),
+          createdate: DateTime.fromMillisecondsSinceEpoch(
+            Duration(seconds: createdate).inMilliseconds,
+          ),
           systemtags: systemtags,
           tags: tags,
           syncnum: syncnum,

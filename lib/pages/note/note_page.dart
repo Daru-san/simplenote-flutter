@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplenote_flutter/main.dart';
 import 'package:simplenote_flutter/models/note/note.dart';
-import './note_entries.dart';
+import 'package:simplenote_flutter/views/text_editing_view.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage({super.key});
@@ -98,7 +98,7 @@ class _NotePageState extends State<NotePage> {
           textFieldController: _titleTextController,
         ),
       ),
-      body: NoteEntry(
+      body: TextEditingView(
         textFieldController: _contentTextController,
       ),
       floatingActionButton: FloatingActionButton(

@@ -38,6 +38,8 @@ class Note {
     );
   }
 
+  void saveLocalNote() {}
+
   factory Note.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {

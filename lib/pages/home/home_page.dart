@@ -43,52 +43,13 @@ class _HomePageState extends State<HomePage> {
     )
   ];
 
-  String _selectedSortBy = "Title";
-  final List<String> _sortByOptions = ["Title" "Creation date" "Last modified"];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notes List'),
+        title: const Text('All notes'),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        actions: [
-          DropdownButton(
-            value: _selectedSortBy,
-            items: _sortByOptions
-                .map((option) => DropdownMenuItem(
-                    value: option,
-                    child: Text(
-                      option.toString(),
-                    )))
-                .toList(),
-            onChanged: (selectedOption) {
-              setState(() {
-                _selectedSortBy = selectedOption as String;
-                switch (selectedOption.toLowerCase()) {
-                  case "title":
-                    {
-                      noteList.sort(
-                        (a, b) => a.title.compareTo(b.title),
-                      );
-                    }
-                  case "creation date":
-                    {
-                      noteList.sort(
-                        (a, b) => a.createdate.compareTo(b.createdate),
-                      );
-                    }
-                  case "last modified":
-                    {
-                      noteList.sort(
-                        (a, b) => a.modifydate.compareTo(b.modifydate),
-                      );
-                    }
-                }
-              });
-            },
-          ),
-        ],
+        actions: [],
       ),
       body: Center(
         child: ListView.builder(

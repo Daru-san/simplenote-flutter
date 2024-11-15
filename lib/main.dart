@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:simplenote_flutter/models/database/database.dart';
 import 'package:simplenote_flutter/models/session/session.dart';
 import 'package:simplenote_flutter/pages/main/main_page.dart';
 import 'package:yaru/yaru.dart';
 
-Session currentSession = Session(email: "default");
+var currentSession = Session.newSession();
+var noteDB = DatabaseHelper.make();
 
 Future<void> main() async {
   await YaruWindowTitleBar.ensureInitialized();
 
-  // currentSession.syncSimplenote();
+  // currentSession = await currentSession.syncSimplenote();
+  noteDB.initDB();
 
   runApp(const MyApp());
 }

@@ -14,7 +14,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _activePage = 0;
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     TagPage(),
@@ -37,7 +36,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        title: Text(_pageTitles[_activePage]),
+        title: Text('Simplenote'),
         isMinimizable: false,
         isRestorable: false,
         isClosable: false,
@@ -52,9 +51,6 @@ class _MainPageState extends State<MainPage> {
           );
         },
         pageBuilder: (context, index) {
-          setState(() {
-            _activePage = index;
-          });
           return Center(child: _pages[index]);
         },
       ),

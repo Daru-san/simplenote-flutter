@@ -72,4 +72,48 @@ class Note {
       _ => throw Exception("Failed to load note."),
     };
   }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = Map<String, dynamic>();
+
+    map['key'] = key;
+    map['content'] = content;
+    map['modified_date'] = Duration(
+      milliseconds: modifydate.millisecondsSinceEpoch,
+    ).inSeconds;
+    map['creation_date'] = Duration(
+      milliseconds: createdate.millisecondsSinceEpoch,
+    ).inSeconds;
+
+    if (id != 0) map['id'] = id;
+    return map;
+  }
+
+  factory Note.fromMap(Map<String, dynamic> map) {
+    return switch (map) {
+      {
+        'id': int id,
+        'key': String key,
+        'content': String content,
+        'modified_date': int modifydate,
+        'creation_date': int createdate,
+      } =>
+        Note(
+            id: id,
+            key: key,
+            content: content,
+            modifydate: DateTime.fromMillisecondsSinceEpoch(
+              Duration(seconds: modifydate).inMilliseconds,
+            ),
+            createdate: DateTime.fromMillisecondsSinceEpoch(
+              Duration(seconds: createdate).inMilliseconds,
+            ),
+            systemtags: [],
+            tags: [],
+            syncnum: 0,
+            version: 0,
+            isDeleted: false),
+      _ => throw Exception('Error converting note')
+    };
+  }
 }

@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
       content: '''
       This is a body of text put into this special little note of mine
       ''',
-      title: "Note title",
       modifydate: DateTime.now(),
       createdate: DateTime.now(),
       systemtags: [],
@@ -34,7 +33,6 @@ class _HomePageState extends State<HomePage> {
       content: '''
       This other body of text is really interesting
       ''',
-      title: "Second note",
       modifydate: DateTime.now(),
       createdate: DateTime.now(),
       systemtags: [],
@@ -97,7 +95,7 @@ class _HomePageState extends State<HomePage> {
           itemCount: noteList.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(noteList[index].title),
+              title: Text(noteList[index].content.substring(0, 10)),
               isThreeLine: true,
               selectedTileColor: Theme.of(context).hoverColor,
               tileColor: Theme.of(context).cardColor,

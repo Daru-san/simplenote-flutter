@@ -76,8 +76,12 @@ class Session {
       body: json.encode({
         'content': note.content,
         'tags': note.tags,
-        'modifydate': note.modifydate,
-        'createdate': note.createdate,
+        'modifydate': Duration(
+          milliseconds: note.modifydate.millisecondsSinceEpoch,
+        ).inSeconds.toString(),
+        'createdate': Duration(
+          milliseconds: note.createdate.millisecondsSinceEpoch,
+        ).inSeconds.toString(),
         'systemtags': note.systemtags,
       }),
     );

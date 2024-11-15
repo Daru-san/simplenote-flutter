@@ -37,6 +37,10 @@ class _NotePageState extends State<NotePage> {
   @override
   void initState() {
     super.initState();
+    final note = ModalRoute.of(context)?.settings.arguments as Note;
+    currentNote = note;
+    noteTags = currentNote.tags;
+    _contentTextController.text = note.content;
     _contentTextController.addListener(contentTextChanged);
   }
 
@@ -46,16 +50,6 @@ class _NotePageState extends State<NotePage> {
     super.dispose();
   }
 
-  void getNote() async {
-    noteContent = currentNote.content.toString();
-    noteTags = currentNote.tags;
-  }
-
-  void setNote(Note note) {
-    currentNote = note;
-    getNote();
-  }
-
   void fetchNote() async {
     if (currentNote.key != "") {
       var note = currentSession.fetchNote(currentNote.key);
@@ -63,26 +57,8 @@ class _NotePageState extends State<NotePage> {
     } else {}
   }
 
-  void saveNote() {
-    if (currentNote.key != "") {
-      updateNote();
-    } else {
-      saveNewNote();
-    }
-  }
-
-  void saveNewNote() {
-    currentSession.createNote(currentNote);
-  }
-
-  void updateNote() {
-    currentSession.updateNote(currentNote);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final note = ModalRoute.of(context)!.settings.arguments as Note;
-    setNote(note);
     return Scaffold(
       appBar: AppBar(
         title: NoteTitleEntry(

@@ -14,7 +14,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Note> noteList = [];
+  final List<Note> noteList = [
+    Note(
+      key: 1.toString(),
+      content: "Text",
+      title: "Note title",
+      modifydate: DateTime.now(),
+      createdate: DateTime.now(),
+      systemtags: [],
+      tags: [],
+      syncnum: 1,
+      version: 1,
+      isDeleted: false,
+    ),
+    Note(
+      key: 2.toString(),
+      content: "Text",
+      title: "Second ntoe",
+      modifydate: DateTime.now(),
+      createdate: DateTime.now(),
+      systemtags: [],
+      tags: [],
+      syncnum: 1,
+      version: 1,
+      isDeleted: false,
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {

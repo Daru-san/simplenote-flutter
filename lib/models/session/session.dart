@@ -22,6 +22,9 @@ class Session {
 
   final client = http.Client();
 
+  factory Session.newSession() {
+    return Session(email: "default@email.com");
+  }
 
   void updateCookie(http.Response response) {
     String? rawCookie = response.headers['set-cookie'];

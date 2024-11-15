@@ -32,6 +32,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   );
                 },
               ),
+              SettingsTile(
+                title: Text("Sync with simplenote"),
+                onPressed: (context) {
+                  currentSession.syncSimplenote();
+                },
+              ),
               SettingsTile(title: Text("Email: ${currentSession.email}")),
             ],
           ),

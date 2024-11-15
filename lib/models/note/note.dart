@@ -1,3 +1,5 @@
+import 'package:simplenote_flutter/main.dart';
+
 class Note {
   final int id;
   final String key;
@@ -38,7 +40,13 @@ class Note {
     );
   }
 
-  void saveLocalNote() {}
+  void saveLocalNote() async {
+    if (await noteDB.checkNote(id)) {
+      noteDB.updateNote(this);
+    } else {
+      noteDB.insertNote(this);
+    }
+  }
 
   factory Note.fromJson(Map<String, dynamic> json) {
     return switch (json) {

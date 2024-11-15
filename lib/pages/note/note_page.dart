@@ -31,6 +31,7 @@ class _NotePageState extends State<NotePage> {
   void contentTextChanged() {
     setState(() {
       noteContent = _contentTextController.text.trim();
+      noteTitle = noteContent.substring(1, 10);
     });
   }
 

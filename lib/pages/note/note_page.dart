@@ -103,9 +103,7 @@ class _NotePageState extends State<NotePage> {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Save note",
-        onPressed: () {
-          saveNote();
-        },
+        onPressed: () => currentNote.saveLocalNote(),
         child: const Icon(Icons.save),
       ),
     );

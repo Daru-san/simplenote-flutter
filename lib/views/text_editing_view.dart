@@ -16,14 +16,17 @@ class TextEditingView extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: MarkdownAutoPreview(
+      child: SplittedMarkdownFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         enableToolBar: true,
         scrollController: scrollController,
         controller: textFieldController,
+        toolbarBackground: Theme.of(context).scaffoldBackgroundColor,
         emojiConvert: true,
+        minLines: null,
         maxLines: null,
         textCapitalization: TextCapitalization.sentences,
-        decoration: InputDecoration(),
+        decoration: InputDecoration(isDense: false),
         style: TextStyle(
           fontSize: 19,
           height: 1.5,

@@ -26,12 +26,12 @@ class DatabaseHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE notes_table(
+      CREATE TABLE notes_table (
         id INTEGER PRIMARY KEY,
         key INTEGER,
         content TEXT,
         creation_date INTEGER,
-        modified_date INTEGER,
+        modified_date INTEGER
       );
     ''');
   }

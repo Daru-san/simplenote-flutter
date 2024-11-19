@@ -93,8 +93,24 @@ class Note {
       milliseconds: createdate.millisecondsSinceEpoch,
     ).inSeconds;
 
-    if (id != 0) map['id'] = id;
+    map['id'] = (id != 0) ? id : 0;
+
     return map;
+  }
+
+  Note setId(int newID) {
+    return Note(
+      id: newID,
+      key: key,
+      content: content,
+      modifydate: modifydate,
+      createdate: createdate,
+      systemtags: systemtags,
+      tags: tags,
+      syncnum: syncnum,
+      version: version,
+      isDeleted: isDeleted,
+    );
   }
 
   factory Note.fromMap(Map<String, dynamic> map) {

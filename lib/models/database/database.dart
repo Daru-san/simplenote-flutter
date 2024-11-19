@@ -37,6 +37,9 @@ class DatabaseHelper {
   }
 
   Future<int> insertNote(Note note) async {
+    var noteCount = await getCount();
+    note = note.setId(noteCount++);
+
     var dbClient = await db;
     int count = await dbClient.insert('notes_table', note.toMap());
     return count;
